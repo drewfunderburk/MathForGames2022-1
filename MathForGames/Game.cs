@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using MathLibrary;
+using Raylib_cs;
+
 
 namespace MathForGames
 {
@@ -11,7 +13,7 @@ namespace MathForGames
     {
         private static bool _gameOver = false;
         private Scene _scene;
-
+        private Camera2D _camera;
         public static ConsoleColor DefaultColor { get; set; } = ConsoleColor.White;
 
         //Static function used to set game over without an instance of game.
@@ -36,11 +38,13 @@ namespace MathForGames
         {
             Console.CursorVisible = false;
             _scene = new Scene();
-            Actor actor = new Actor(0,0,'■',ConsoleColor.Green);
+            _camera = new Camera2D();
+            Actor actor = new Actor(0,0,Color.GREEN,'■');
             actor.Velocity.X = 1;
-            Player player = new Player(0, 1, '@', ConsoleColor.Red);
+            Player player = new Player(0, 1,Color.RED ,'@' );
             _scene.AddActor(player);
             _scene.AddActor(actor);
+            Raylib.InitWindow(800, 500, "Math For Games");
             
         }
 
@@ -71,15 +75,20 @@ namespace MathForGames
         public void Run()
         {
             Start();
-
+            Texture2D samus = Raylib.LoadTexture("samus.png");
+            Rectangle frameRec = new Rectangle(0, 0, samus.width / 4, samus.height / 2);
             while(!_gameOver)
             {
-                
+                Raylib.BeginMode2D(_camera);
                 Update();
+                Raylib.ClearBackground(Color.WHITE);
+                Raylib.BeginDrawing();
                 Draw();
+                Raylib.EndDrawing();
                 while (Console.KeyAvailable)
                     Console.ReadKey(true);
                 Thread.Sleep(150);
+                Raylib.EndMode2D();
             }
 
             End();
