@@ -8,6 +8,8 @@ namespace MathForGames
     {
         private Actor[] _actors;
 
+        public bool Started { get; private set; }
+
         public Scene()
         {
             _actors = new Actor[0];
@@ -102,6 +104,8 @@ namespace MathForGames
             {
                 _actors[i].Start();
             }
+
+            Started = true;
         }
 
         public virtual void Update()
