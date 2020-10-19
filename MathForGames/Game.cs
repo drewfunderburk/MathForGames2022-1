@@ -78,18 +78,20 @@ namespace MathForGames
             if (index < 0 || index >= _scenes.Length)
                 return;
 
+            if (_scenes[_currentSceneIndex].Started)
+                _scenes[_currentSceneIndex].End();
+
             _currentSceneIndex = index;
         }
 
-        public static ConsoleKey GetNextKey()
+        public static bool GetKeyDown(int key)
         {
-            //If the user hasn't pressed a key return
-            if(!Console.KeyAvailable)
-            {
-                return 0;
-            }
-            //Return the key that was pressed
-            return Console.ReadKey(true).Key;
+            return Raylib.IsKeyDown((KeyboardKey)key);
+        }
+
+        public static bool GetKeyPressed(int key)
+        {
+            return Raylib.IsKeyPressed((KeyboardKey)key);
         }
 
         public Game()
@@ -156,7 +158,8 @@ namespace MathForGames
         //Called when the game ends.
         public void End()
         {
-            _scenes[_currentSceneIndex].End();
+            if (_scenes[_currentSceneIndex].Started)
+                _scenes[_currentSceneIndex].End();
         }
 
 
@@ -167,7 +170,10 @@ namespace MathForGames
 
             while(!_gameOver && !Raylib.WindowShouldClose())
             {
-                
+                if(GetKeyPressed(65))
+                {
+
+                }
                 Update();
                 Draw();
                 while (Console.KeyAvailable)

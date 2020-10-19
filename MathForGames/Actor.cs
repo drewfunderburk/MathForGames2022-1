@@ -71,7 +71,7 @@ namespace MathForGames
 
         public virtual void Draw()
         {
-            Raylib.DrawText(_icon.ToString(), (int)_position.X * 32, (int)_position.Y * 32, 32, _rayColor);
+            Raylib.DrawText(_icon.ToString(), (int)(_position.X * 32), (int)(_position.Y * 32), 32, _rayColor);
             Console.ForegroundColor = _color;
             Console.SetCursorPosition((int)_position.X, (int)_position.Y);
             Console.Write(_icon);
@@ -80,7 +80,7 @@ namespace MathForGames
 
         public virtual void End()
         {
-
+            Started = false;
         }
 
     }
