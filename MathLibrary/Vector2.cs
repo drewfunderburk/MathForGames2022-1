@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace MathLibrary
 {
@@ -31,6 +32,14 @@ namespace MathLibrary
             }
         }
 
+        public float Magnitude
+        {
+            get
+            {
+                return (float)Math.Sqrt(X * X + Y * Y);
+            }
+        }
+
 
         public Vector2()
         {
@@ -46,10 +55,7 @@ namespace MathLibrary
 
         public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
         {
-            float x = lhs.X + rhs.X;
-            float y = lhs.Y + rhs.Y;
-
-            return new Vector2(x, y);
+            return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y);
         }
 
         public static Vector2 operator *(Vector2 lhs, float scalar)
@@ -57,10 +63,10 @@ namespace MathLibrary
             return new Vector2(lhs.X * scalar, lhs.Y * scalar);
         }
 
-        public float GetMagnitude()
+        public void Normalize()
         {
-            return (float)Math.Sqrt(X * X + Y * Y);
+            X = X / Magnitude;
+            Y = Y / Magnitude;
         }
-
     }
 }

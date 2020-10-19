@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
+using Raylib_cs;
 
 namespace MathForGames
 {
@@ -10,8 +11,8 @@ namespace MathForGames
         protected char _icon = ' ';
         protected Vector2 _position;
         protected Vector2 _velocity;
-        protected ConsoleColor _color;
-
+        protected Color _color;
+        
 
         public Vector2 Position
         {
@@ -21,7 +22,8 @@ namespace MathForGames
             }
             set
             {
-                _position = value;
+                _position.X = value.X;
+                _position.Y = value.Y;
             }
         }
 
@@ -33,17 +35,19 @@ namespace MathForGames
             }
             set
             {
-                _velocity = value;
+                _velocity.X = value.X;
+                _velocity.Y = value.Y;
             }
         }
 
 
-        public Actor(float x, float y, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+        public Actor(float x, float y,Color color, char icon = ' ' )
         {
             _icon = icon;
             _position = new Vector2(x, y);
             _velocity = new Vector2();
             _color = color;
+            
         }
 
         public virtual void Start()
@@ -62,9 +66,9 @@ namespace MathForGames
 
         public virtual void Draw()
         {
-            Console.ForegroundColor = _color;
             Console.SetCursorPosition((int)_position.X, (int)_position.Y);
             Console.Write(_icon);
+            Raylib.DrawRectangle((int)_position.X, (int)_position.Y, 10, 10, _color);
             Console.ForegroundColor = Game.DefaultColor;
         }
 

@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Numerics;
+using Raylib_cs;
 
 namespace MathForGames
 {
     class Player : Actor
     {
-        public Player(float x, float y, char icon = ' ', ConsoleColor color = ConsoleColor.White)
-            : base(x,y,icon, color)
+        public Player(float x, float y, Color color,char icon = ' ' )
+            : base(x,y,color,icon )
         {
-
+            
         }
 
         public override void Update()
