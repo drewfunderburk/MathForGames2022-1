@@ -69,7 +69,7 @@ namespace MathForGames
             if (_velocity.Magnitude <= 0)
                 return;
 
-            _facing = Velocity.Normalized;
+            Forward = Velocity.Normalized;
         }
 
         public virtual void Start()
@@ -82,9 +82,6 @@ namespace MathForGames
         {
             UpdateFacing();
             _position += _velocity * deltaTime;
-            _position.X = Math.Clamp(_position.X, 0, Console.WindowWidth-1);
-            _position.Y = Math.Clamp(_position.Y, 0, Console.WindowHeight-1);
-
         }
 
         public virtual void Draw()
@@ -99,8 +96,16 @@ namespace MathForGames
             );
 
             Console.ForegroundColor = _color;
-            Console.SetCursorPosition((int)_position.X, (int)_position.Y);
-            Console.Write(_icon);
+
+
+            //Only draws the actor on the console if it is within the bounds of the window
+            if(Position.X >= 0 && Position.X < Console.WindowWidth 
+                && Position.Y >= 0  && Position.Y < Console.WindowHeight)
+            {
+                Console.SetCursorPosition((int)_position.X, (int)_position.Y);
+                Console.Write(_icon);
+            }
+            
             Console.ForegroundColor = Game.DefaultColor;
             
 
