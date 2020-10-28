@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MathLibrary
 {
-    class Matrix3
+    public class Matrix3
     {
         public float 
             m11, m12, m13, 

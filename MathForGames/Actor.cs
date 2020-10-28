@@ -14,17 +14,18 @@ namespace MathForGames
     class Actor
     {
         protected char _icon = ' ';
-        protected Vector2 _position;
         protected Vector2 _velocity;
-        private Vector2 _facing;
         protected ConsoleColor _color;
         protected Color _rayColor;
+
+        protected Matrix3 _transform = new Matrix3();
+
         public bool Started { get; private set; }
 
+        // X-axis forward
         public Vector2 Forward
         {
-            get { return _facing; }
-            set { _facing = value; }
+            get { return new Vector2(_transform.m11, _transform.m21); }
         }
 
 
@@ -32,11 +33,12 @@ namespace MathForGames
         {
             get
             {
-                return _position;
+                return new Vector2(_transform.m11, _transform.m22);
             }
             set
             {
-                _position = value;
+                _transform.m11 = value.X;
+                _transform.m22 = value.Y;
             }
         }
 
@@ -61,10 +63,12 @@ namespace MathForGames
         {
             _rayColor = Color.WHITE;
             _icon = icon;
-            _position = new Vector2(x, y);
+            Position = new Vector2(x, y);
             _velocity = new Vector2();
             _color = color;
             Forward = new Vector2(1, 0);
+            _transform.m11 = x;
+            _transform.m22 = y;
         }
 
 
@@ -103,14 +107,14 @@ namespace MathForGames
             UpdateFacing();
 
             //Increase position by the current velocity
-            _position += _velocity * deltaTime;
+            Position += _velocity * deltaTime;
         }
 
         public virtual void Draw()
         {
             //Draws the actor and a line indicating it facing to the raylib window.
             //Scaled to match console movement
-            Raylib.DrawText(_icon.ToString(), (int)(_position.X * 32), (int)(_position.Y * 32), 32, _rayColor);
+            Raylib.DrawText(_icon.ToString(), (int)(Position.X * 32), (int)(Position.Y * 32), 32, _rayColor);
             Raylib.DrawLine(
                 (int)(Position.X * 32),
                 (int)(Position.Y * 32),
@@ -126,7 +130,7 @@ namespace MathForGames
             if(Position.X >= 0 && Position.X < Console.WindowWidth 
                 && Position.Y >= 0  && Position.Y < Console.WindowHeight)
             {
-                Console.SetCursorPosition((int)_position.X, (int)_position.Y);
+                Console.SetCursorPosition((int)Position.X, (int)Position.Y);
                 Console.Write(_icon);
             }
             
