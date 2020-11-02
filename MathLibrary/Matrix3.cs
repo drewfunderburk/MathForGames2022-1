@@ -27,11 +27,6 @@ namespace MathLibrary
             this.m21 = m21; this.m22 = m22; this.m23 = m23;
             this.m31 = m31; this.m32 = m32; this.m33 = m33;
         }
-        
-        public Matrix3(Vector3 row1, Vector3 row2, Vector3 row3)
-        {
-
-        }
 
         public static Matrix3 operator +(Matrix3 lhs, Matrix3 rhs)
         {
