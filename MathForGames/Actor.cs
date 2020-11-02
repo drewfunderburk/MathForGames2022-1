@@ -124,10 +124,6 @@ namespace MathForGames
         
         public virtual void Update(float deltaTime)
         {
-
-            // Update the Actor's Transform
-            UpdateTransform();
-
             //Increase position by the current velocity
             Position += _velocity * deltaTime;
         }
