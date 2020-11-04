@@ -60,14 +60,14 @@ namespace MathForGames
             //Velocity = Velocity.Normalized * Speed;
 
             Velocity = new Vector2(xDirection, yDirection);
-            Position += Velocity.Normalized * Speed;
+            LocalPosition += Velocity.Normalized * Speed;
 
             base.Update(deltaTime);
         }
 
         public override void Draw()
         {
-            _sprite.Draw(_transform);
+            _sprite.Draw(_localTransform);
             base.Draw();
         }
     }
