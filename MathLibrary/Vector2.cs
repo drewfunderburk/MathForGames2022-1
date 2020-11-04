@@ -8,46 +8,22 @@ namespace MathLibrary
         private float _y;
 
         public float X
-        {
-            get
-            {
-                return _x;
-            }
-            set
-            {
-                _x = value;
-            }
+        { 
+            get { return _x; } 
+            set { _x = value; } 
         }
 
         public float Y
-        {
-            get
-            {
-                return _y;
-            }
-            set
-            {
-                _y = value;
-            }
+        { 
+            get { return _y; } 
+            set { _y = value; } 
         }
 
         public float Magnitude
-        {
-            get
-            {
-                return (float)Math.Sqrt(X * X + Y * Y);
-            }
-        }
+        { get { return (float)Math.Sqrt(X * X + Y * Y); } }
 
         public Vector2 Normalized
-        {
-            get
-            {
-                return Normalize(this);
-            }
-        }
-
-        
+        { get { return Normalize(this); } }
 
         public Vector2()
         {
@@ -81,31 +57,18 @@ namespace MathLibrary
         /// <param name="rhs"></param>
         /// <returns></returns>
         public static float DotProduct(Vector2 lhs, Vector2 rhs)
-        {
-            return (lhs.X * rhs.X) + (lhs.Y * rhs.Y);
-        }
+        { return (lhs.X * rhs.X) + (lhs.Y * rhs.Y); }
 
         public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
-        {
-            return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y);
-        }
+        { return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y); }
 
         public static Vector2 operator -(Vector2 lhs, Vector2 rhs)
-        {
-            return new Vector2(lhs.X - rhs.X, lhs.Y - rhs.Y);
-        }
+        { return new Vector2(lhs.X - rhs.X, lhs.Y - rhs.Y); }
 
         public static Vector2 operator *(Vector2 lhs, float scalar)
-        {
-            return new Vector2(lhs.X * scalar, lhs.Y * scalar);
-        }
+        { return new Vector2(lhs.X * scalar, lhs.Y * scalar); }
 
         public static Vector2 operator /(Vector2 lhs, float scalar)
-        {
-            return new Vector2(lhs.X / scalar, lhs.Y / scalar);
-        }
-
-
-
+        { return new Vector2(lhs.X / scalar, lhs.Y / scalar); }
     }
 }
