@@ -13,9 +13,6 @@ namespace MathForGames
     /// </summary>
     class Actor
     {
-        private float _angle = 0;
-        public float _rotationSpeed = 0.01f;
-
         protected Sprite _sprite;
 
         protected Actor _parent;
@@ -126,6 +123,31 @@ namespace MathForGames
             _scale.m22 = y;
         }
 
+        // This may or may not work
+        public void LookAt(Vector2 position)
+        {
+            // Get direction to look in
+            Vector2 direction = (position - LocalPosition).Normalized;
+
+            // Find rotation angle
+            float dotProduct = Vector2.DotProduct(Forward, direction);
+            if (Math.Abs(dotProduct) > 1)
+                return;
+
+            float angle = (float)Math.Acos(dotProduct);
+
+            // Get perpendicular vector
+            Vector2 perpVector = new Vector2(direction.Y, -direction.X);
+            float perpDotProduct = Vector2.DotProduct(perpVector, direction);
+
+            if (perpDotProduct < 0)
+            {
+                angle = -angle;
+            }
+
+            SetRotation(angle);
+        }
+
         protected void UpdateGlobalTransform()
         {
             if (_parent != null)
@@ -163,10 +185,6 @@ namespace MathForGames
         {
             // Update Transform
             UpdateTransform();
-
-            _angle += _rotationSpeed;
-            _angle = _angle % (float)(Math.PI * 2);
-            SetRotation(_angle);
 
             //Increase position by the current velocity
             LocalPosition += Velocity * deltaTime;

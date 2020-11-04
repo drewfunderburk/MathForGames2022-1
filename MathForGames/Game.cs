@@ -200,11 +200,6 @@ namespace MathForGames
             player.AddChild(planet1);
             planet1.AddChild(moon1);
 
-            player._rotationSpeed = 0.05f;
-            planet1._rotationSpeed = 0.1f;
-
-            player.SetRotation((float)Math.PI / 4);
-
             //Add actors to the scenes
             scene1.AddActor(player);
             scene1.AddActor(planet1);

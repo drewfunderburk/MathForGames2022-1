@@ -12,7 +12,6 @@ namespace MathForGames
     class Player : Actor
     {
         private float _speed = 1;
-        private float angle;
         public float Speed
         {
             get
