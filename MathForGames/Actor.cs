@@ -13,9 +13,10 @@ namespace MathForGames
     /// </summary>
     class Actor
     {
-        protected char _icon = ' ';
-        protected ConsoleColor _color;
-        protected Color _rayColor;
+        private float _angle = 0;
+        public float _rotationSpeed = 0.01f;
+
+        protected Sprite _sprite;
 
         protected Actor _parent;
         protected Actor[] _children;
@@ -33,6 +34,11 @@ namespace MathForGames
         public Vector2 Forward 
         { get { return new Vector2(_localTransform.m11, _localTransform.m21).Normalized; } }
 
+        public Vector2 GlobalPosition
+        {
+            get { return new Vector2(_globalTransform.m13, _globalTransform.m23); }
+        }
+
         public Vector2 LocalPosition
         {
             get { return new Vector2(_localTransform.m13, _localTransform.m23); }
@@ -46,27 +52,14 @@ namespace MathForGames
         /// <param name="y">Position on the y axis</param>
         /// <param name="icon">The symbol that will appear when drawn</param>
         /// <param name="color">The color of the symbol that will appear when drawn</param>
-        public Actor(float x, float y, char icon = ' ', ConsoleColor color = ConsoleColor.White)
+        public Actor(float x, float y)
         {
-            _rayColor = Color.WHITE;
-            _icon = icon;
             LocalPosition = new Vector2(x, y);
             Velocity = new Vector2();
-            _color = color;
             LocalPosition.X = x;
             LocalPosition.Y = y;
-        }
-
-
-        /// <param name="x">Position on the x axis</param>
-        /// <param name="y">Position on the y axis</param>
-        /// <param name="rayColor">The color of the symbol that will appear when drawn to raylib</param>
-        /// <param name="icon">The symbol that will appear when drawn</param>
-        /// <param name="color">The color of the symbol that will appear when drawn to the console</param>
-        public Actor(float x, float y, Color rayColor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
-            : this(x,y,icon,color)
-        {
-            _rayColor = rayColor;
+            _sprite = new Sprite("Images/player.png");
+            _children = new Actor[0];
         }
 
         public bool AddChild(Actor child)
@@ -83,7 +76,6 @@ namespace MathForGames
             tempArray[_children.Length] = child;
             _children = tempArray;
             child._parent = this;
-            child._globalTransform = this._localTransform;
             return true;
         }
 
@@ -134,9 +126,31 @@ namespace MathForGames
             _scale.m22 = y;
         }
 
+        protected void UpdateGlobalTransform()
+        {
+            if (_parent != null)
+            {
+                _globalTransform = _parent._globalTransform * _localTransform;
+            }
+            else
+            {
+                _globalTransform = _localTransform;
+            }
+
+            for (int i = 0; i < _children.Length; i++)
+            {
+                _children[i].UpdateGlobalTransform();
+            }
+        }
+
         private void UpdateTransform()
         {
+            UpdateGlobalTransform();
             _localTransform = _translation * _rotation * _scale;
+            for (int i = 0; i < _children.Length; i++)
+            {
+                _children[i]._globalTransform = _localTransform;
+            }
         }
 
         public virtual void Start()
@@ -150,36 +164,17 @@ namespace MathForGames
             // Update Transform
             UpdateTransform();
 
+            _angle += _rotationSpeed;
+            _angle = _angle % (float)(Math.PI * 2);
+            SetRotation(_angle);
+
             //Increase position by the current velocity
             LocalPosition += Velocity * deltaTime;
         }
 
         public virtual void Draw()
         {
-            //Draws the actor and a line indicating it facing to the raylib window.
-            //Scaled to match console movement
-            //Raylib.DrawText(_icon.ToString(), (int)(Position.X * 32), (int)(Position.Y * 32), 32, _rayColor);
-            Raylib.DrawLine(
-                (int)(LocalPosition.X * 32),
-                (int)(LocalPosition.Y * 32),
-                (int)((LocalPosition.X + Forward.X) * 32),
-                (int)((LocalPosition.Y + Forward.Y) * 32),
-                Color.WHITE
-            );
-
-            //Changes the color of the console text to be this actors color
-            Console.ForegroundColor = _color;
-
-            //Only draws the actor on the console if it is within the bounds of the window
-            if(LocalPosition.X >= 0 && LocalPosition.X < Console.WindowWidth 
-                && LocalPosition.Y >= 0  && LocalPosition.Y < Console.WindowHeight)
-            {
-                Console.SetCursorPosition((int)LocalPosition.X, (int)LocalPosition.Y);
-                Console.Write(_icon);
-            }
-            
-            //Reset console text color to be default color
-            Console.ForegroundColor = Game.DefaultColor;
+            _sprite.Draw(_globalTransform);
         }
 
         public virtual void End()

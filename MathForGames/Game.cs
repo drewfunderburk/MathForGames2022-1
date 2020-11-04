@@ -192,18 +192,23 @@ namespace MathForGames
             Scene scene2 = new Scene();
 
             //Create the actors to add to our scene
-            Actor actor = new Actor(0,0,Color.GREEN,'■',ConsoleColor.Green);
-            Enemy enemy = new Enemy(10, 10, Color.GREEN, '■', ConsoleColor.Green);
-            Player player = new Player(0, 1,Color.BLUE, '@', ConsoleColor.Red);
-            actor.Velocity.X = 1;
-            enemy.Target = player;
-            player.Speed = 1;
+
+
+            Player player = new Player(Raylib.GetScreenHeight() / 2, Raylib.GetScreenWidth() / 2);
+            Actor planet1 = new Actor(7, 7);
+            Actor moon1 = new Actor(3, 3);
+            player.AddChild(planet1);
+            planet1.AddChild(moon1);
+
+            player._rotationSpeed = 0.05f;
+            planet1._rotationSpeed = 0.1f;
+
+            player.SetRotation((float)Math.PI / 4);
 
             //Add actors to the scenes
             scene1.AddActor(player);
-            scene1.AddActor(actor);
-            scene1.AddActor(enemy);
-            scene2.AddActor(player);
+            scene1.AddActor(planet1);
+            scene1.AddActor(moon1);
             
             //Sets the starting scene index and adds the scenes to the scenes array
             int startingSceneIndex = 0;

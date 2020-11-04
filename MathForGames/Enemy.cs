@@ -14,7 +14,7 @@ namespace MathForGames
     class Enemy : Actor
     {
         private Actor _target;
-        private Color _alertColor;
+
         public Actor Target
         {
             get { return _target; }
@@ -25,21 +25,10 @@ namespace MathForGames
         /// <param name="y">Position on the y axis</param>
         /// <param name="icon">The symbol that will appear when drawn</param>
         /// <param name="color">The color of the symbol that will appear when drawn</param>
-        public Enemy(float x, float y, char icon = ' ', ConsoleColor color = ConsoleColor.White)
-            : base(x, y, icon, color)
+        public Enemy(float x, float y)
+            : base(x, y)
         {
 
-        }
-
-        /// <param name="x">Position on the x axis</param>
-        /// <param name="y">Position on the y axis</param>
-        /// <param name="rayColor">The color of the symbol that will appear when drawn to raylib</param>
-        /// <param name="icon">The symbol that will appear when drawn</param>
-        /// <param name="color">The color of the symbol that will appear when drawn to the console</param>
-        public Enemy(float x, float y, Color rayColor, char icon = ' ', ConsoleColor color = ConsoleColor.White)
-            : base(x, y, rayColor, icon, color)
-        {
-            _alertColor = Color.RED;
         }
 
         /// <summary>
@@ -73,16 +62,6 @@ namespace MathForGames
 
         public override void Update(float deltaTime)
         {
-            //If the target can be seen change the color to red
-            //If the target can't be seen change the color to blue
-            if(CheckTargetInSight(1.5f, 5))
-            {
-                _rayColor = Color.RED;
-            }
-            else
-            {
-                _rayColor = Color.BLUE;
-            }
             base.Update(deltaTime);
         }
     }
