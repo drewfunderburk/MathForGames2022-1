@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -14,11 +14,10 @@ namespace MathForGames
     class Actor
     {
         protected char _icon = ' ';
-        protected Vector2 _velocity;
         protected ConsoleColor _color;
         protected Color _rayColor;
-        protected Matrix3 _transform = new Matrix3();
 
+        protected Matrix3 _transform = new Matrix3();
         private Matrix3 _translation = new Matrix3();
         private Matrix3 _rotation = new Matrix3();
         private Matrix3 _scale = new Matrix3();
@@ -26,36 +25,17 @@ namespace MathForGames
         public bool Started { get; private set; }
 
         // X-axis forward
-        public Vector2 Forward
-        {
-            get { return new Vector2(_transform.m11, _transform.m21).Normalized; }
-        }
+        public Vector2 Forward 
+        { get { return new Vector2(_transform.m11, _transform.m21).Normalized; } }
 
 
         public Vector2 Position
         {
-            get
-            {
-                return new Vector2(_transform.m13, _transform.m23);
-            }
-            set
-            {
-                _transform.m13 = value.X;
-                _transform.m23 = value.Y;
-            }
+            get { return new Vector2(_transform.m13, _transform.m23); }
+            set { SetTranslation(value); }
         }
 
-        public Vector2 Velocity
-        {
-            get
-            {
-                return _velocity;
-            }
-            set
-            {
-                _velocity = value;
-            }
-        }
+        public Vector2 Velocity { get; set; }
 
 
         /// <param name="x">Position on the x axis</param>
@@ -67,7 +47,7 @@ namespace MathForGames
             _rayColor = Color.WHITE;
             _icon = icon;
             Position = new Vector2(x, y);
-            _velocity = new Vector2();
+            Velocity = new Vector2();
             _color = color;
             Position.X = x;
             Position.Y = y;
@@ -126,15 +106,16 @@ namespace MathForGames
         {
             // Update Transform
             UpdateTransform();
+
             //Increase position by the current velocity
-            Position += _velocity * deltaTime;
+            Position += Velocity * deltaTime;
         }
 
         public virtual void Draw()
         {
             //Draws the actor and a line indicating it facing to the raylib window.
             //Scaled to match console movement
-            Raylib.DrawText(_icon.ToString(), (int)(Position.X * 32), (int)(Position.Y * 32), 32, _rayColor);
+            //Raylib.DrawText(_icon.ToString(), (int)(Position.X * 32), (int)(Position.Y * 32), 32, _rayColor);
             Raylib.DrawLine(
                 (int)(Position.X * 32),
                 (int)(Position.Y * 32),
