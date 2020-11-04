@@ -13,6 +13,7 @@ namespace MathForGames
     {
         private float _speed = 1;
         private Sprite _sprite;
+
         public float Speed
         {
             get
@@ -58,8 +59,8 @@ namespace MathForGames
             //Velocity = new Vector2(xDirection, yDirection);
             //Velocity = Velocity.Normalized * Speed;
 
-            SetTranslation(new Vector2(-yDirection, 0));
-            SetRotation(-xDirection * 0.3f);
+            Velocity = new Vector2(xDirection, yDirection);
+            Position += Velocity.Normalized * Speed;
 
             base.Update(deltaTime);
         }

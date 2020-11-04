@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -74,8 +74,8 @@ namespace MathForGames
         public void SetRotation(float radians)
         {
             _rotation.m11 = (float)Math.Cos(radians);
-            _rotation.m12 = (float)Math.Sin(radians);
             _rotation.m21 = (float)-Math.Sin(radians);
+            _rotation.m12 = (float)Math.Sin(radians);
             _rotation.m22 = (float)Math.Cos(radians);
         }
 
@@ -87,13 +87,7 @@ namespace MathForGames
 
         private void UpdateTransform()
         {
-            _transform *= _translation;
-            _transform *= _rotation;
-            _transform *= _scale;
-
-            _translation = new Matrix3();
-            _rotation = new Matrix3();
-            _scale = new Matrix3();
+            _transform = _translation * _rotation * _scale;
         }
 
         public virtual void Start()
