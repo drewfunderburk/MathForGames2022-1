@@ -192,19 +192,13 @@ namespace MathForGames
             Scene scene2 = new Scene();
 
             //Create the actors to add to our scene
-
-
-            Player player = new Player(Raylib.GetScreenHeight() / 2, Raylib.GetScreenWidth() / 2);
-            Actor planet1 = new Actor(7, 7);
-            Actor moon1 = new Actor(3, 3);
-            player.AddChild(planet1);
-            planet1.AddChild(moon1);
+            Player player = new Player(5, 5);
+            Enemy enemy = new Enemy(10, 10);
 
             //Add actors to the scenes
             scene1.AddActor(player);
-            scene1.AddActor(planet1);
-            scene1.AddActor(moon1);
-            
+            scene1.AddActor(enemy);
+
             //Sets the starting scene index and adds the scenes to the scenes array
             int startingSceneIndex = 0;
             startingSceneIndex = AddScene(scene1);

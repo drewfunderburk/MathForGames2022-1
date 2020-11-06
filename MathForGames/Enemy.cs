@@ -28,7 +28,7 @@ namespace MathForGames
         public Enemy(float x, float y)
             : base(x, y)
         {
-
+            _sprite = new Sprite("Images/enemy.png");
         }
 
         /// <summary>

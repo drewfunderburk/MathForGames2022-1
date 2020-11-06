@@ -11,7 +11,7 @@ namespace MathForGames
     /// </summary>
     class Player : Actor
     {
-        private float _speed = 1;
+        private float _speed = 30;
         public float Speed
         {
             get
@@ -48,12 +48,6 @@ namespace MathForGames
             LocalPosition += Velocity.Normalized * Speed;
 
             base.Update(deltaTime);
-        }
-
-        public override void Draw()
-        {
-            _sprite.Draw(_localTransform);
-            base.Draw();
         }
     }
 }

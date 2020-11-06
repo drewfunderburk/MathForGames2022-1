@@ -80,7 +80,7 @@ namespace MathForGames
             float rotation = (float)Math.Atan2(transform.m21, transform.m11);
 
             //Draw the sprite
-            Raylib.DrawTextureEx(_texture, pos * 32,
+            Raylib.DrawTextureEx(_texture, pos,
                 (float)(rotation * 180.0f / Math.PI), 32, Color.WHITE);
         }
     }

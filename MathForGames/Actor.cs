@@ -25,6 +25,9 @@ namespace MathForGames
         protected Matrix3 _rotation = new Matrix3();
         protected Matrix3 _scale = new Matrix3();
 
+        protected float _rotationAngle;
+        protected float _collisionRadius;
+
         public bool Started { get; private set; }
 
         // X-axis forward
@@ -53,10 +56,9 @@ namespace MathForGames
         {
             LocalPosition = new Vector2(x, y);
             Velocity = new Vector2();
-            LocalPosition.X = x;
-            LocalPosition.Y = y;
             _sprite = new Sprite("Images/player.png");
             _children = new Actor[0];
+            _collisionRadius = 20;
         }
 
         public bool AddChild(Actor child)
@@ -175,6 +177,24 @@ namespace MathForGames
             }
         }
 
+        public bool CheckCollision(Actor other)
+        {
+            float distance = (other.GlobalPosition - GlobalPosition).Magnitude;
+            if (distance < other._collisionRadius + _collisionRadius)
+                return true;
+            else
+                return false;
+        }
+
+        public virtual void OnCollision(Actor other)
+        {
+            // Check if objects are really collided
+            if (!CheckCollision(other))
+                return;
+
+            // Do things
+        }
+
         public virtual void Start()
         {
             Started = true;
@@ -192,6 +212,7 @@ namespace MathForGames
 
         public virtual void Draw()
         {
+            Raylib.DrawCircleLines((int)GlobalPosition.X, (int)GlobalPosition.Y, _collisionRadius, Color.GREEN);
             _sprite.Draw(_globalTransform);
         }
 
