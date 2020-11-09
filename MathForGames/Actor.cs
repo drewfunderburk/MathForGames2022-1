@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -148,8 +148,9 @@ namespace MathForGames
             float dotProduct = Vector2.DotProduct(Forward, direction);
 
             // If actor is already facing that direction, return
-            if (dotProduct == 1)
+            if (dotProduct >= 1)
                 return;
+
 
             // Get angle to face
             float angle = (float)Math.Acos(dotProduct);
