@@ -13,6 +13,7 @@ namespace MathForGames
         private static bool _gameOver = false;
         private static Scene[] _scenes;
         private static int _currentSceneIndex;
+
         public static int CurrentSceneIndex
         {
             get

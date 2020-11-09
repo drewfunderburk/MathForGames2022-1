@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -65,6 +65,8 @@ namespace MathForGames
             UpdateTransform();
             UpdateGlobalTransform();
         }
+
+        public Actor(Vector2 position) : this(position.X, position.Y) { }
 
         public bool AddChild(Actor child)
         {
@@ -228,7 +230,7 @@ namespace MathForGames
             // Check if objects are really collided
             if (!CheckCollision(other))
                 return;
-
+            
             color = Color.RED;
         }
 
