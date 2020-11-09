@@ -107,6 +107,25 @@ namespace MathForGames
             return actorRemoved;
         }
 
+        // Removes actors set to be removed
+        private void DestroyActors()
+        {
+            List<Actor> toDestroy = new List<Actor>();
+
+            // Find actors that should be removed
+            for (int i = 0; i < _actors.Length; i++)
+            {
+                if (_actors[i].WillDestroy)
+                    toDestroy.Add(_actors[i]);
+            }
+
+            // Remove them
+            for (int i = 0; i < toDestroy.Count; i++)
+            {
+                RemoveActor(toDestroy[i]);
+            }
+        }
+        
         public virtual void Start()
         {
             Started = true;
@@ -139,6 +158,9 @@ namespace MathForGames
                     }
                 }
             }
+
+            // Clean up actors
+            DestroyActors();
         }
 
         public virtual void Draw()

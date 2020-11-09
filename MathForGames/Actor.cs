@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -31,6 +31,7 @@ namespace MathForGames
         protected Color color = Color.GREEN;
 
         public bool Started { get; private set; }
+        public bool WillDestroy { get; protected set; } = false;
 
         // X-axis forward
         public Vector2 Forward
@@ -254,6 +255,14 @@ namespace MathForGames
         public virtual void Draw()
         {
             Raylib.DrawCircleLines((int)GlobalPosition.X, (int)GlobalPosition.Y, _collisionRadius, color);
+
+            Raylib.DrawLine(
+               (int)GlobalPosition.X,
+               (int)GlobalPosition.Y,
+               (int)(GlobalPosition.X + (Forward.X * 50)),
+               (int)(GlobalPosition.Y + (Forward.Y * 50)),
+               Color.RED);
+
             _sprite.Draw(_globalTransform);
         }
 
