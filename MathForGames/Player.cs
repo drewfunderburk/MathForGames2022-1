@@ -12,6 +12,9 @@ namespace MathForGames
     class Player : Actor
     {
         private float _speed = 10;
+        private float _fireDelay = 100;
+
+        private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         public float Speed
         {
             get
@@ -30,6 +33,7 @@ namespace MathForGames
             : base(x, y)
         {
             _sprite = new Sprite("Images/player.png");
+            stopwatch.Start();
         }
 
         public override void Update(float deltaTime)
@@ -46,6 +50,19 @@ namespace MathForGames
 
             Vector2 mousePos = new Vector2(Raylib.GetMouseX(), Raylib.GetMouseY());
             LookAt(mousePos);
+
+            // Shoot
+            if (Raylib.IsMouseButtonDown(MouseButton.MOUSE_LEFT_BUTTON))
+            {
+                float currentTime = stopwatch.ElapsedMilliseconds;
+                if (currentTime > _fireDelay)
+                {
+                    Bullet bullet = new Bullet(this, GlobalPosition, _rotationAngle);
+                    Game.GetCurrentScene().AddActor(bullet);
+                    stopwatch.Restart();
+                }
+            }
+
             base.Update(deltaTime);
         }
     }
