@@ -11,7 +11,7 @@ namespace MathForGames
     /// </summary>
     class Player : Actor
     {
-        private float _speed = 30;
+        private float _speed = 10;
         public float Speed
         {
             get
@@ -41,12 +41,11 @@ namespace MathForGames
                 + Convert.ToInt32(Game.GetKeyDown((int)KeyboardKey.KEY_S));
 
             //Set the actors current velocity to be the a vector with the direction found scaled by the speed
-            //Velocity = new Vector2(xDirection, yDirection);
-            //Velocity = Velocity.Normalized * Speed;
-
             Velocity = new Vector2(xDirection, yDirection);
             LocalPosition += Velocity.Normalized * Speed;
 
+            Vector2 mousePos = new Vector2(Raylib.GetMouseX(), Raylib.GetMouseY());
+            LookAt(mousePos);
             base.Update(deltaTime);
         }
     }

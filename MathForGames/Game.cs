@@ -192,8 +192,8 @@ namespace MathForGames
             Scene scene2 = new Scene();
 
             //Create the actors to add to our scene
-            Player player = new Player(5, 5);
-            Enemy enemy = new Enemy(10, 10);
+            Player player = new Player(100, 199);
+            Enemy enemy = new Enemy(201, 200);
 
             //Add actors to the scenes
             scene1.AddActor(player);
@@ -228,7 +228,6 @@ namespace MathForGames
             Raylib.BeginDrawing();
 
             Raylib.ClearBackground(Color.BLACK);
-            Console.Clear();
             _scenes[_currentSceneIndex].Draw();
 
             Raylib.EndDrawing();

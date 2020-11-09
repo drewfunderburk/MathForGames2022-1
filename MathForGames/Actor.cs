@@ -25,13 +25,15 @@ namespace MathForGames
         protected Matrix3 _rotation = new Matrix3();
         protected Matrix3 _scale = new Matrix3();
 
-        protected float _rotationAngle;
+        protected float _rotationAngle = 0;
         protected float _collisionRadius;
+
+        protected Color color = Color.GREEN;
 
         public bool Started { get; private set; }
 
         // X-axis forward
-        public Vector2 Forward 
+        public Vector2 Forward
         { get { return new Vector2(_localTransform.m11, _localTransform.m21).Normalized; } }
 
         public Vector2 GlobalPosition
@@ -59,6 +61,9 @@ namespace MathForGames
             _sprite = new Sprite("Images/player.png");
             _children = new Actor[0];
             _collisionRadius = 20;
+
+            UpdateTransform();
+            UpdateGlobalTransform();
         }
 
         public bool AddChild(Actor child)
@@ -119,6 +124,14 @@ namespace MathForGames
             _rotation.m22 = (float)Math.Cos(radians);
         }
 
+        public void Rotate(float radians)
+        {
+            _rotationAngle += radians;
+            // Here if I want it later. Prevent angle from being a ridiculous value
+            //_rotationAngle %= (float)(Math.PI * 2);
+            SetRotation(_rotationAngle);
+        }
+
         public void SetScale(float x, float y)
         {
             _scale.m11 = x;
@@ -128,26 +141,49 @@ namespace MathForGames
         // This may or may not work
         public void LookAt(Vector2 position)
         {
-            // Get direction to look in
+            // Find the direction to look at
             Vector2 direction = (position - LocalPosition).Normalized;
 
-            // Find rotation angle
+            // Get dotproduct between forward and direction to look
             float dotProduct = Vector2.DotProduct(Forward, direction);
-            if (Math.Abs(dotProduct) > 1)
+
+            // If actor is already facing that direction, return
+            if (dotProduct == 1)
                 return;
 
+            // Get angle to face
             float angle = (float)Math.Acos(dotProduct);
 
-            // Get perpendicular vector
+            // Get perpendicular vector to direction
             Vector2 perpVector = new Vector2(direction.Y, -direction.X);
-            float perpDotProduct = Vector2.DotProduct(perpVector, direction);
 
-            if (perpDotProduct < 0)
-            {
-                angle = -angle;
-            }
+            // Get dotproduct between forward and perpendicular vector
+            float perpDotProduct = Vector2.DotProduct(perpVector, Forward);
 
-            SetRotation(angle);
+            // Negate angle if perDotProduct is negative
+            if (perpDotProduct != 0)
+                angle *= -perpDotProduct / Math.Abs(perpDotProduct);
+            /*
+            Raylib.DrawLine(
+                (int)GlobalPosition.X, 
+                (int)GlobalPosition.Y, 
+                (int)(GlobalPosition.X + (Forward.X * 50)), 
+                (int)(GlobalPosition.Y + (Forward.Y * 50)), 
+                Color.RED);
+            Raylib.DrawLine(
+                (int)GlobalPosition.X,
+                (int)GlobalPosition.Y,
+                (int)(GlobalPosition.X + (direction.X * 50)),
+                (int)(GlobalPosition.Y + (direction.Y * 50)),
+                Color.GREEN);
+            Raylib.DrawLine(
+                (int)GlobalPosition.X,
+                (int)GlobalPosition.Y,
+                (int)(GlobalPosition.X + (perpVector.X * 50)),
+                (int)(GlobalPosition.Y + (perpVector.Y * 50)),
+                Color.BLUE);
+            */
+            Rotate(angle);
         }
 
         protected void UpdateGlobalTransform()
@@ -179,7 +215,7 @@ namespace MathForGames
 
         public bool CheckCollision(Actor other)
         {
-            float distance = (other.GlobalPosition - GlobalPosition).Magnitude;
+            float distance = (other.GlobalPosition - this.GlobalPosition).Magnitude;
             if (distance < other._collisionRadius + _collisionRadius)
                 return true;
             else
@@ -192,7 +228,7 @@ namespace MathForGames
             if (!CheckCollision(other))
                 return;
 
-            // Do things
+            color = Color.RED;
         }
 
         public virtual void Start()
@@ -200,11 +236,14 @@ namespace MathForGames
             Started = true;
         }
 
-        
+
         public virtual void Update(float deltaTime)
         {
+            // Console.WriteLine(GlobalPosition.X + ", " + GlobalPosition.Y);
             // Update Transform
             UpdateTransform();
+
+            color = Color.GREEN;
 
             //Increase position by the current velocity
             LocalPosition += Velocity * deltaTime;
@@ -212,7 +251,7 @@ namespace MathForGames
 
         public virtual void Draw()
         {
-            Raylib.DrawCircleLines((int)GlobalPosition.X, (int)GlobalPosition.Y, _collisionRadius, Color.GREEN);
+            Raylib.DrawCircleLines((int)GlobalPosition.X, (int)GlobalPosition.Y, _collisionRadius, color);
             _sprite.Draw(_globalTransform);
         }
 
