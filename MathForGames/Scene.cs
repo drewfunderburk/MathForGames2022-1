@@ -114,12 +114,30 @@ namespace MathForGames
 
         public virtual void Update(float deltaTime)
         {
+            // Update all actors
             for (int i = 0; i < _actors.Length; i++)
             {
                 if (!_actors[i].Started)
                     _actors[i].Start();
 
                 _actors[i].Update(deltaTime);
+            }
+
+            // Check for collisions
+            for (int i = 0; i < _actors.Length; i++)
+            {
+                for (int n = 0; n < _actors.Length; n++)
+                {
+                    // Do not check collision against self
+                    if (_actors[i] == _actors[n])
+                        continue;
+
+                    if (_actors[i].CheckCollision(_actors[n]))
+                    {
+                        _actors[i].OnCollision(_actors[n]);
+                        _actors[n].OnCollision(_actors[i]);
+                    }
+                }
             }
         }
 
