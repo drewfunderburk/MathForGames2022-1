@@ -157,14 +157,14 @@ namespace MathForGames
             float angle = (float)Math.Acos(dotProduct);
 
             // Get perpendicular vector to direction
-            Vector2 perpVector = new Vector2(direction.Y, -direction.X);
+            Vector2 perpVector = new Vector2(-direction.Y, direction.X);
 
             // Get dotproduct between forward and perpendicular vector
             float perpDotProduct = Vector2.DotProduct(perpVector, Forward);
 
             // Negate angle if perDotProduct is negative
             if (perpDotProduct != 0)
-                angle *= -perpDotProduct / Math.Abs(perpDotProduct);
+                angle *= perpDotProduct / Math.Abs(perpDotProduct);
 
             Rotate(angle);
         }
@@ -233,7 +233,10 @@ namespace MathForGames
 
         public virtual void Draw()
         {
-            Raylib.DrawCircleLines((int)GlobalPosition.X, (int)GlobalPosition.Y, _collisionRadius, color);
+            Raylib.DrawCircleLines(
+                (int)GlobalPosition.X, 
+                (int)GlobalPosition.Y, 
+                _collisionRadius, color);
 
             Raylib.DrawLine(
                (int)GlobalPosition.X,

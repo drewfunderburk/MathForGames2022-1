@@ -61,9 +61,7 @@ namespace MathLibrary
 
 
         public static implicit operator Vector2((float, float) tuple)
-        {
-            return new Vector2(tuple.Item1, tuple.Item2);
-        }
+        { return new Vector2(tuple.Item1, tuple.Item2); }
 
         public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
         { return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y); }
