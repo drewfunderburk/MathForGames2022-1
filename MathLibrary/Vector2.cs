@@ -59,6 +59,12 @@ namespace MathLibrary
         public static float DotProduct(Vector2 lhs, Vector2 rhs)
         { return (lhs.X * rhs.X) + (lhs.Y * rhs.Y); }
 
+
+        public static implicit operator Vector2((float, float) tuple)
+        {
+            return new Vector2(tuple.Item1, tuple.Item2);
+        }
+
         public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
         { return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y); }
 
