@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using MathLibrary;
@@ -240,7 +240,6 @@ namespace MathForGames
 
         public virtual void Update(float deltaTime)
         {
-            // Console.WriteLine(GlobalPosition.X + ", " + GlobalPosition.Y);
             // Update Transform
             UpdateTransform();
 
