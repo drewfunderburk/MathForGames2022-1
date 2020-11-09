@@ -141,7 +141,6 @@ namespace MathForGames
             _scale.m22 = y;
         }
 
-        // This may or may not work
         public void LookAt(Vector2 position)
         {
             // Find the direction to look at
@@ -153,7 +152,6 @@ namespace MathForGames
             // If actor is already facing that direction, return
             if (dotProduct >= 1)
                 return;
-
 
             // Get angle to face
             float angle = (float)Math.Acos(dotProduct);
@@ -167,26 +165,7 @@ namespace MathForGames
             // Negate angle if perDotProduct is negative
             if (perpDotProduct != 0)
                 angle *= -perpDotProduct / Math.Abs(perpDotProduct);
-            /*
-            Raylib.DrawLine(
-                (int)GlobalPosition.X, 
-                (int)GlobalPosition.Y, 
-                (int)(GlobalPosition.X + (Forward.X * 50)), 
-                (int)(GlobalPosition.Y + (Forward.Y * 50)), 
-                Color.RED);
-            Raylib.DrawLine(
-                (int)GlobalPosition.X,
-                (int)GlobalPosition.Y,
-                (int)(GlobalPosition.X + (direction.X * 50)),
-                (int)(GlobalPosition.Y + (direction.Y * 50)),
-                Color.GREEN);
-            Raylib.DrawLine(
-                (int)GlobalPosition.X,
-                (int)GlobalPosition.Y,
-                (int)(GlobalPosition.X + (perpVector.X * 50)),
-                (int)(GlobalPosition.Y + (perpVector.Y * 50)),
-                Color.BLUE);
-            */
+
             Rotate(angle);
         }
 
