@@ -11,7 +11,7 @@ namespace MathForGames
     class Sprite
     {
         private Texture2D _texture;
-
+        private float scale = 32;
         //Width of the loaded texture
         public int Width
         {
@@ -73,15 +73,15 @@ namespace MathForGames
             System.Numerics.Vector2 pos = new System.Numerics.Vector2(transform.m13, transform.m23);
             System.Numerics.Vector2 forward = new System.Numerics.Vector2(transform.m11, transform.m21);
             System.Numerics.Vector2 up = new System.Numerics.Vector2(transform.m12, transform.m22);
-            pos -= (forward / forward.Length()) * Width / 2;
-            pos -= (up / up.Length()) * Height / 2;
+            pos -= ((forward / forward.Length()) * Width / 2) * scale;
+            pos -= ((up / up.Length()) * Height / 2) * scale;
 
             //Find the transform rotation in radians 
             float rotation = (float)Math.Atan2(transform.m21, transform.m11);
 
             //Draw the sprite
             Raylib.DrawTextureEx(_texture, pos,
-                (float)(rotation * 180.0f / Math.PI), 32, Color.WHITE);
+                (float)(rotation * 180.0f / Math.PI), scale, Color.WHITE);
         }
     }
 }
