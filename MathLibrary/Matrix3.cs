@@ -11,6 +11,9 @@ namespace MathLibrary
             m21, m22, m23, 
             m31, m32, m33;
 
+        /// <summary>
+        /// Initializes a new Matrix3 with an identity matrix
+        /// </summary>
         public Matrix3()
         {
             m11 = 1; m12 = 0; m13 = 0;
@@ -18,6 +21,18 @@ namespace MathLibrary
             m31 = 0; m32 = 0; m33 = 1;
         }
 
+        /// <summary>
+        /// Initializes a new Matrix3 with the given values
+        /// </summary>
+        /// <param name="m11"></param>
+        /// <param name="m12"></param>
+        /// <param name="m13"></param>
+        /// <param name="m21"></param>
+        /// <param name="m22"></param>
+        /// <param name="m23"></param>
+        /// <param name="m31"></param>
+        /// <param name="m32"></param>
+        /// <param name="m33"></param>
         public Matrix3(
             float m11, float m12, float m13, 
             float m21, float m22, float m23, 
@@ -26,6 +41,45 @@ namespace MathLibrary
             this.m11 = m11; this.m12 = m12; this.m13 = m13;
             this.m21 = m21; this.m22 = m22; this.m23 = m23;
             this.m31 = m31; this.m32 = m32; this.m33 = m33;
+        }
+
+        /// <summary>
+        /// Creates a new matrix that has been translated by the given value
+        /// </summary>
+        /// <param name="position">The position of the new matrix</param>
+        /// <returns></returns>
+        public static Matrix3 CreateTranslation(Vector2 position)
+        {
+            return new Matrix3(
+                1, 0, position.X,
+                0, 1, position.Y,
+                0, 0, 1);
+        }
+
+        /// <summary>
+        /// Creates a new matrix that has been rotated by the given value
+        /// </summary>
+        /// <param name="radians">The amount the new matrix should be rotated</param>
+        /// <returns></returns>
+        public static Matrix3 CreateRotation(float radians)
+        {
+            return new Matrix3(
+                (float)Math.Cos(radians), (float)Math.Sin(radians), 0,
+                -(float)Math.Sin(radians), (float)Math.Cos(radians), 0,
+                0, 0, 1);
+        }
+
+        /// <summary>
+        /// Creates a new matrix that has been scaled by the given value
+        /// </summary>
+        /// <param name="scale">The amount the new matrix should be scaled</param>
+        /// <returns></returns>
+        public static Matrix3 CreateScale(Vector2 scale)
+        {
+            return new Matrix3(
+                scale.X, 0, 0,
+                0, scale.Y, 0,
+                0, 0, 1);
         }
 
         public static Matrix3 operator +(Matrix3 lhs, Matrix3 rhs)
